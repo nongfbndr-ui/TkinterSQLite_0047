@@ -99,3 +99,39 @@ def lihat_data():
         tree.insert("", "end", values=row)
 
 
+# --- Konfigurasi Tampilan Utama (GUI) ---
+root = tk.Tk()
+root.title("Prediksi Risiko Diabetes")
+root.geometry("350x480")
+
+tk.Label(root, text="Prediksi Risiko Diabetes", font=("Arial", 14, "bold")).pack(pady=10)
+
+nama_entry = tk.Entry(root, width=25)
+usia_entry = tk.Entry(root, width=25)
+gula_entry = tk.Entry(root, width=25)
+bmi_entry = tk.Entry(root, width=25)
+
+for teks, entry in [
+    ("Nama Pasien", nama_entry),
+    ("Usia", usia_entry),
+    ("Gula Darah (mg/dL)", gula_entry),
+    ("BMI", bmi_entry)
+]:
+    tk.Label(root, text=teks).pack(anchor="w", padx=45)
+    entry.pack(pady=2)
+
+tk.Label(root, text="Riwayat Diabetes Orang Tua").pack(anchor="w", padx=45)
+ortu_box = ttk.Combobox(root, values=["Ya", "Tidak"], state="readonly", width=22)
+ortu_box.set("Tidak")  # <-- Perbaikan: Mengisi nilai default agar tidak kosong
+ortu_box.pack(pady=2)
+
+tk.Button(root, text="Simpan & Prediksi", command=prediksi, bg="#d0f0c0", width=20).pack(pady=10)
+tk.Button(root, text="Lihat Data", command=lihat_data, width=20).pack()
+
+hasil_label = tk.Label(root, text="Hasil: -", font=("Arial", 12, "bold"))
+hasil_label.pack(pady=15)
+
+root.mainloop()
+
+# Menutup koneksi database ketika aplikasi ditutup
+conn.close()
